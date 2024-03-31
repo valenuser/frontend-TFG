@@ -19,6 +19,11 @@
 import {VueTelInput}  from 'vue-tel-input';
 export default{
     name:'RegisterView',
+    data(){
+        return{
+            phone:''
+        }
+    },
     components:{
         VueTelInput
     },

@@ -21,7 +21,7 @@ const routes = [
     component: LoginView
   },
   {
-    path: '/verify/:token',
+    path: '/verify',
     name: 'verify',
     component: VerifyView
   }
