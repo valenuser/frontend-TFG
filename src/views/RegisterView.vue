@@ -1,7 +1,7 @@
 <template>
     <section class="flex items-center justify-center w-[100%] h-[100vh] bg-[#212121]">
         <div class="flex flex-col  items-center justify-around  rounded-lg w-[350px] h-[650px]">
-            <img :src="require('/Users/valentinpavonlopez/Desktop/TFG/tfgfrontend/public/img/logo.png')" alt="">
+            <!-- <img :src="require('/Users/valentinpavonlopez/Desktop/TFG/tfgfrontend/public/img/logo.png')" alt=""> -->
             <div class="w-[300px] h-[250px] flex flex-col justify-around items-center ">
                 <div class="flex flex-col text-center">
                     <input type="text" class="w-[300px] h-[50px] text-[20px] rounded-2xl text-white outline-none bg-black p-2" placeholder="Nombre de usuario">
