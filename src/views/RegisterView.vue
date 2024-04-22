@@ -67,9 +67,13 @@ export default{
         }
     },
     register(){
-        const emailCheck = this.verifyEmail()
-        const userCheck = this.verifyUsername() 
-        if( emailCheck != false && userCheck != false ){
+        if(this.username == ' ' || this.mail == ' ' || this.username.length == 0 || this.mail.length == 0){
+            this.toast.error('No se han proporcionado los datos correctamente',{timeout:2000,position:"top-center"})
+        }else{
+            const emailCheck = this.verifyEmail()
+            const userCheck = this.verifyUsername() 
+            
+            if( emailCheck != false && userCheck != false ){
             axios.post('http://localhost:3000/register',{email:this.mail,username:this.username})
                 .then(response => {
                     console.log(response.data.errorEmail);
@@ -83,6 +87,7 @@ export default{
                         this.popUp()
                     }
                 })
+            }
         }
     }
   }
