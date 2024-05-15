@@ -19,7 +19,7 @@ export default{
   },
   data(){
     return{
-      urlQR:'http://172.20.10.10:8080/verify'
+      urlQR:'http://192.168.1.11:8080/verify'
     }
   },
   methods:{

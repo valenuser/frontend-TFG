@@ -50,13 +50,21 @@ export default{
    login(){
       if(this.code == '' && this.mail == ''){
         this.toast.error("Rellene los campos correctamente.",{timeout:2000,position:"top-center"})
-      }else if( this.code.length < 9 || this.code.includes(' ') == true  ){
+      }else if( this.code.length < 9 ){
           this.popUpError({type:'code',data:'Introduce el codigo correctamente.'})
       }else if(this.verifyEmail() == false){
         this.popUpError({type:'mail',data:'Introduce un correo valido.'})
       }else{
-              axios.post('http://localhost:3000/login',{email:this.mail,code:this.code})
-                .then(response => console.log(response))
+        try{
+            axios.post('http://localhost:3000/login',{mail:this.mail,code:this.code})
+              .then(response => console.log(response))
+              .catch(e =>{
+              console.log(e);
+            })
+
+        }catch(e){
+          this.toast.error(e.msg,{timeout:2000,position:"top-center"})
+        }
 
       }
     }

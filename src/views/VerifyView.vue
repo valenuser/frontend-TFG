@@ -52,6 +52,9 @@ export default{
               this.toast.error('El mail introducido no esta registrado',{timeout:2000,position:"top-center"})
             }
             })
+            .catch(e =>{
+              console.log(e);
+            })
         }else{
           this.toast.error('Introduce un mail valido',{timeout:2000,position:"top-center"})
           this.mail = ''
