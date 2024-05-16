@@ -59,11 +59,23 @@ export default{
             axios.post('http://localhost:3000/login',{mail:this.mail,code:this.code})
               .then(response => console.log(response))
               .catch(e =>{
-              console.log(e);
+                const data = e["response"]["data"]
+
+                if(data.length > 1)
+                {
+
+                    data.forEach(element => {
+                      this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                    });
+
+                }else{
+                  this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                }
+
             })
 
         }catch(e){
-          this.toast.error(e.msg,{timeout:2000,position:"top-center"})
+          this.toast.error(e,{timeout:2000,position:"top-center"})
         }
 
       }

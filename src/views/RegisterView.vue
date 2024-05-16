@@ -75,17 +75,25 @@ export default{
             
             if( emailCheck != false && userCheck != false ){
             axios.post('http://localhost:3000/register',{email:this.mail,username:this.username})
-                .then(response => {
-                    console.log(response.data.errorEmail);
-                    if(response.data.errorEmail != undefined){
-                        this.popUpError({type:'email',data:response.data.errorEmail})
-                    }else if(response.data.errorUser != undefined){
-                        this.popUpError({type:'username',data:response.data.errorUser})
-                    }else if(response.data.errorRegister != undefined){
-                        this.popUpError({type:'username',data:response.data.errorRegister})
-                    }else if(response.data.checked != undefined){
+            .then(response =>{
+                    if(response){
                         this.popUp()
                     }
+                }
+            )
+              .catch(e =>{
+                const data = e["response"]["data"]
+
+                if(data.length > 1)
+                {
+
+                    data.forEach(element => {
+                      this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                    });
+
+                }else{
+                  this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                }
                 })
             }
         }

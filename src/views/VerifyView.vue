@@ -46,14 +46,24 @@ export default{
         if(this.mail.match(pastronEmail) != null &&    this.mail.includes('.') != false){
             axios.post('http://localhost:3000/verifyMail',{mail:this.mail})
             .then(response => {
-            if(response.status == 200){
+              console.log('a');
+              if(response){
                 this.popUp()
-            }else{
-              this.toast.error('El mail introducido no esta registrado',{timeout:2000,position:"top-center"})
-            }
+              }
             })
             .catch(e =>{
-              console.log(e);
+              const data = e["response"]["data"]
+
+              if(data.length > 1)
+              {
+
+                  data.forEach(element => {
+                    this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                  });
+
+              }else{
+                this.toast.error(data["msg"],{timeout:2000,position:"top-center"})
+              }
             })
         }else{
           this.toast.error('Introduce un mail valido',{timeout:2000,position:"top-center"})
