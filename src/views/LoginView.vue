@@ -47,6 +47,9 @@ export default{
             this.code = ''
         }
     },
+    userLoggead(token){
+      this.$router.push({name:'chat',params:{token:token}})
+    },
    login(){
       if(this.code == '' && this.mail == ''){
         this.toast.error("Rellene los campos correctamente.",{timeout:2000,position:"top-center"})
@@ -57,7 +60,7 @@ export default{
       }else{
         try{
             axios.post('http://localhost:3000/login',{mail:this.mail,code:this.code})
-              .then(response => console.log(response))
+              .then(response => this.userLoggead(response["data"]["token"]))
               .catch(e =>{
                 const data = e["response"]["data"]
 

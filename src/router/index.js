@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import VerifyView from '../views/VerifyView.vue'
 import LoginView from '../views/LoginView.vue'
+import ChatView from '../views/ChatView.vue'
+import BadRequest from '../views/BadRequest.vue'
 
 const routes = [
   {
@@ -24,6 +26,16 @@ const routes = [
     path: '/verify',
     name: 'verify',
     component: VerifyView
+  },
+  {
+    path: '/chat/:token',
+    name: 'chat',
+    component: ChatView
+  },
+  {
+    path: '/badRequest',
+    name: 'badRequest',
+    component: BadRequest
   }
 ]
 
