@@ -22,26 +22,28 @@
 </template>
 <script>
     import axios from 'axios'
-   export default{
+    import io from 'socket.io-client'
+    export default{
     data(){
         return{
             mensajes:[
-                // {
-                //     abreviado:'FM',
-                //     name:'Fran',
-
-                // }
             ]
         }
     },
     mounted(){
         axios.post(`http://localhost:3000/token/verifyToken`,{token:this.$route.params.token})
-        .then(response => console.log(response))
+        .then(response =>{
+             if(response){
+                this.socketInstance = io('http://localhost:3000')
+             }
+        })
         .catch(error =>{
             if(error){
                 this.$router.push({name:'badRequest'})
             }
         })
     },
+    methods:{
+    }
 }
 </script>

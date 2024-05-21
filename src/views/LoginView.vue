@@ -12,7 +12,6 @@
  </section>
 </template>
 <script>
-// import axios from 'axios'
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
 export default{
@@ -51,6 +50,8 @@ export default{
       this.$router.push({name:'chat',params:{token:token}})
     },
    login(){
+
+    console.log('a');
       if(this.code == '' && this.mail == ''){
         this.toast.error("Rellene los campos correctamente.",{timeout:2000,position:"top-center"})
       }else if( this.code.length < 9 ){
@@ -58,6 +59,7 @@ export default{
       }else if(this.verifyEmail() == false){
         this.popUpError({type:'mail',data:'Introduce un correo valido.'})
       }else{
+        
         try{
             axios.post('http://localhost:3000/login',{mail:this.mail,code:this.code})
               .then(response => this.userLoggead(response["data"]["token"]))
