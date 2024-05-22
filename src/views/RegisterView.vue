@@ -43,8 +43,10 @@ export default{
         if(message.type == 'email'){
             this.toast.error(message.data,{timeout:2000,position:"top-center"})
             this.mail = ''
+            this.mail = ''
         }else if(message.type == 'username'){
             this.toast.error(message.data,{timeout:2000,position:"top-center"})
+            this.mail = ''
             this.username = ''
         }
     },
@@ -92,7 +94,9 @@ export default{
                     });
 
                 }else{
-                  this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                    this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                    this.mail = ''
+                    this.username = ''
                 }
                 })
             }
