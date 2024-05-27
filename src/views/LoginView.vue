@@ -1,5 +1,5 @@
 <template>
-    <section class="flex items-center justify-center w-[100%] md:h-[100vh] bg-[#212121]">
+    <section class="flex items-center justify-center w-[100%] h-[100vh] bg-[#212121]">
      <div class="flex flex-col  items-center justify-around  rounded-lg w-[350px] h-[700px]">
          <img :src="require('/Users/valentinpavonlopez/Desktop/TFG/tfgfrontend/public/img/logo.png')" alt="">
            <h1 class="text-white font-bold text-[20px] text-center ">VERIFICACIÓN DE USUARIO</h1>
@@ -47,11 +47,10 @@ export default{
         }
     },
     userLoggead(token){
-      this.$router.push({name:'chat',params:{token:token}})
+      this.$router.push({name:'main',params:{token:token}})
     },
    login(){
 
-    console.log('a');
       if(this.code == '' && this.mail == ''){
         this.toast.error("Rellene los campos correctamente.",{timeout:2000,position:"top-center"})
       }else if( this.code.length < 9 ){

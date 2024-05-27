@@ -1,5 +1,5 @@
 <template>
-    <section class="flex items-center justify-center w-[100%] md:h-[100vh] bg-[#212121]">
+    <section class="flex items-center justify-center w-[100%] h-[100vh] bg-[#212121]">
      <div class="flex flex-col items-center justify-around  rounded-lg w-[350px] h-[700px]">
          <img :src="require('/Users/valentinpavonlopez/Desktop/TFG/tfgfrontend/public/img/logo.png')" alt="">
          <div class="flex flex-col items-center justify-around h-[200px] w-[95%]">
