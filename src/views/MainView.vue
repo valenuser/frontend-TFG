@@ -15,7 +15,7 @@
         <div v-if="friends.length != 0">
             <div class="w-[100%]  flex flex-wrap items-center justify-center">
                 <div v-for="contactData in friends" :key="contactData">
-                    <NewFriend :contactName="contactData"/>
+                    <FriendBox :contactName="contactData"/>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
 <script>
     import axios from 'axios'
     import { mapState, mapMutations }  from 'vuex' 
-    import NewFriend from '../components/NewFriend.vue'
+    import FriendBox from '../components/FriendBox.vue'
     export default{
     data(){
         return{
@@ -37,13 +37,22 @@
         }
     },
     components:{
-        NewFriend
+        FriendBox
     },
     mounted(){
         axios.post(`http://localhost:3000/token/verifyToken`,{token:this.$route.params.token})
         .then(response  =>{
+
             this.ADD_USERNAME(response["data"]["user"]["username"].substr(0,2).toUpperCase()),
             this.ADD_CHATS(response["data"]["user"]["friends"])
+
+            this.newSocket.emit('message',{'user':response["data"]["user"]})
+
+            this.newSocket.on('message',(id)=>{
+
+                this.ADD_SOCKET(id["id"])
+
+            })
         } )
         .catch(error =>{
             if(error){
@@ -53,13 +62,13 @@
         })
     },
     methods:{
-        ...mapMutations(['ADD_USERNAME','ADD_CHATS']),
+        ...mapMutations(['ADD_USERNAME','ADD_CHATS','ADD_SOCKET']),
         AddFriends(){
             this.$router.push({name:'friends',params:{token:this.$route.params.token}})
         }
     },
     computed:{
-        ...mapState(['friends','usernameAbreviacion'])
+        ...mapState(['friends','usernameAbreviacion','newSocket'])
     }
 }
 </script>

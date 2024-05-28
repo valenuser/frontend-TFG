@@ -1,9 +1,11 @@
 import { createStore } from 'vuex'
-
+import io from 'socket.io-client'
 export default createStore({
   state: {
     friends:[],
-    usernameAbreviacion:''
+    usernameAbreviacion:'',
+    socket:'',
+    newSocket : io('http://localhost:3000')
   },
   mutations: {
 
@@ -12,6 +14,9 @@ export default createStore({
     },
     ADD_CHATS(state,friends){
       state.friends = friends
+    },
+    ADD_SOCKET(state,socketId){
+      state.socket = socketId
     },
   }
 })
