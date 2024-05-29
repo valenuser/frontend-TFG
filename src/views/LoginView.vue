@@ -53,7 +53,7 @@ export default{
 
       if(this.code == '' && this.mail == ''){
         this.toast.error("Rellene los campos correctamente.",{timeout:2000,position:"top-center"})
-      }else if( this.code.length < 9 ){
+      }else if( this.code.length < 5 ){
           this.popUpError({type:'code',data:'Introduce el codigo correctamente.'})
       }else if(this.verifyEmail() == false){
         this.popUpError({type:'mail',data:'Introduce un correo valido.'})
@@ -69,10 +69,12 @@ export default{
                 {
 
                     data.forEach(element => {
+                      console.log(element);
                       this.toast.error(element.msg,{timeout:2000,position:"top-center"})
                     });
 
                 }else{
+                  console.log(data);
                   this.toast.error(data.msg,{timeout:2000,position:"top-center"})
                 }
 

@@ -13,7 +13,7 @@
             <p class="font-bold text-[20px] text-white">Chats</p>
         </div>
         <div v-if="friends.length != 0">
-            <div class="w-[100%]  flex flex-wrap items-center justify-center">
+            <div class="w-[100%]  flex flex-wrap items-start justify-around">
                 <div v-for="contactData in friends" :key="contactData">
                     <FriendBox :contactName="contactData"/>
                 </div>
