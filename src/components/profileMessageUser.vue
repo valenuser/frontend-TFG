@@ -1,8 +1,9 @@
 <template>
     <div class="w-[100%] flex flex-col items-end justify-end mr-2 mt-2">
+        <p class="text-black">{{ message.date }}</p>
         <div class="w-[70%] flex bg-[#007991] text-white rounded-xl relative rounded-br-none">
             <div class="w-[100%] flex flex-wrap p-4">
-                <p class="font-bold text-clip m-2">{{ message.msg }}</p>
+                <p class="font-bold text-clip m-2">{{ message.message }}</p>
             </div>
         </div>
         <div class="w-[20%] h-[30px]">
@@ -28,7 +29,7 @@
         },
         data(){
             return{
-                saved:false
+                saved:true
             }
         },
         methods:{

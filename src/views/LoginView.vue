@@ -14,6 +14,7 @@
 <script>
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
+import { mapMutations } from 'vuex'
 export default{
  name:'LoginView',
  data(){
@@ -24,6 +25,7 @@ export default{
     }
  },
  methods:{
+  ...mapMutations(['ADD_USER_TOKEN']),
    register(){
      this.$router.push({name:'register'})
    },
@@ -61,7 +63,10 @@ export default{
         
         try{
             axios.post('http://localhost:3000/login',{mail:this.mail,code:this.code})
-              .then(response => this.userLoggead(response["data"]["token"]))
+              .then(response => {
+                this.ADD_USER_TOKEN(response["data"]["token"])
+                this.userLoggead(response["data"]["token"])
+              })
               .catch(e =>{
                 const data = e["response"]["data"]
 

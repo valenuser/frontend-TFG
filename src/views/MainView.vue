@@ -43,6 +43,8 @@
         axios.post(`http://localhost:3000/token/verifyToken`,{token:this.$route.params.token})
         .then(response  =>{
 
+            this.ADD_USER_TOKEN(this.$route.params.token)
+
             this.ADD_USERNAME(response["data"]["user"]["username"].substr(0,2).toUpperCase()),
             this.ADD_CHATS(response["data"]["user"]["friends"])
 
@@ -62,7 +64,7 @@
         })
     },
     methods:{
-        ...mapMutations(['ADD_USERNAME','ADD_CHATS','ADD_SOCKET']),
+        ...mapMutations(['ADD_USERNAME','ADD_CHATS','ADD_SOCKET','ADD_USER_TOKEN']),
         AddFriends(){
             this.$router.push({name:'friends',params:{token:this.$route.params.token}})
         }

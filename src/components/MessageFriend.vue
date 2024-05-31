@@ -39,7 +39,7 @@
                     this.saved = false
                     
                 }else{
-                    axios.post('http://localhost:3000/friends/saveMessage',{token:this.$route.params.token,message:this.message})
+                    axios.post('http://localhost:3000/messages/saveMessage',{token:this.$route.params.token,message:this.message})
                     .then(response =>{
                         if(response){
                             this.saved = true

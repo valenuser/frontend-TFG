@@ -1,7 +1,7 @@
 <template>
     <section class="w-[100%] h-[100vh] flex-col bg-[#2a3942]">
         <div class="w-[100%] h-[10vh] flex items-center justify-between">
-            <div class="rounded-full w-[50px] h-[50px] ml-2  bg-white flex items-center justify-center font-bold text-black text-[20px]">
+            <div class="rounded-full w-[50px] h-[50px] ml-2  bg-white flex items-center justify-center font-bold text-black text-[20px]" @click="backMain">
                 <p class="text-[20px]">{{ usernameAbreviacion }}</p>
             </div>
             <div class="w-[100px] flex items-end justify-around mr-2">
@@ -11,7 +11,7 @@
                 <div v-else>
                     <i class="fa-brands fa-slack text-yellow-600 text-[30px]" @click="askGptInput"></i>
                 </div>
-                <i class="fa-solid fa-ellipsis-vertical text-white text-[30px]"></i>
+                <i class="fa-solid fa-ellipsis-vertical text-white text-[30px]" @click="profile"></i>
             </div>
         </div>
         <div class="w-[100%] h-[10vh] flex items-center justify-center">
@@ -40,7 +40,7 @@
             </div>
             <div v-else>
                 <div class="w-[100%] xl:h-[55px] h-[52px]   flex items-center justify-around ">
-                        <input type="text" class="xl:w-[50%] xl:h-[55px]  w-[85%]  h-[40px] border bg-[#2f2f2f] rounded-lg outline-none p-2 text-[15px] text-white text-clip" v-model="textGpt"><button class="rounded-full bg-[#2f2f2f] w-[40px] h-[40px] text-white flex items-center justify-center" @click="askGpt"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                        <input type="text" class="xl:w-[50%] xl:h-[55px]  w-[85%]  h-[40px] border bg-[#044976] rounded-lg outline-none p-2 text-[15px] text-white text-clip" v-model="textGpt"><button class="rounded-full bg-[#044976] w-[40px] h-[40px] text-white flex items-center justify-center" @click="askGpt"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
                 </div>
             </div>
         </div>
@@ -50,9 +50,9 @@
 <script>    
     import { useToast } from 'vue-toastification'
     import MessageFriend from '../components/MessageFriend.vue' 
-    import MessageUser from '../components/MessageUser.vue' 
+    import MessageUser from '../components/MessageUser.vue'
     import MessageGpt from '../components/MessageGpt.vue' 
-    import { mapState }  from 'vuex' 
+    import { mapMutations, mapState }  from 'vuex' 
     import axios from 'axios'
 
     export default{
@@ -73,30 +73,50 @@
         MessageGpt
     },
     mounted(){
-        axios.post(`http://localhost:3000/token/verifyTokenChat`,{token:this.$route.params.token})
-        .then(response =>{
-             if(response){
-                console.log(response["data"]);
-                this.friendName = response["data"]["friend"]["username"]
-                this.socket = response["data"]["friend"]["socketId"]
+            this.mensajes = this.mensajesChat
 
-                this.newSocket.on('messageChat',(msg)=>{
-                    console.log(msg);
-                    this.mensajes.push(msg)
-                })
+            axios.post(`http://localhost:3000/token/verifyTokenChat`,{token:this.$route.params.token})
+            .then(response =>{
+                 if(response){
+                    console.log(response["data"]);
+                    this.friendName = response["data"]["friend"]["username"]
+                    this.socket = response["data"]["friend"]["socketId"]
+    
 
-        }})
-        .catch(error =>{
-            if(error){
-                console.log(error);
-                this.$router.push({name:'badRequest'})
-            }
-        })
+    
+            }})
+            .catch(error =>{
+                if(error){
+                    console.log(error);
+                    this.$router.push({name:'badRequest'})
+                }
+            })
+
+            this.newSocket.on('messageChat',(msg)=>{
+                        const data = this.mensajes.find(x => x.hour == msg.hour && x.date == msg.date && x.msg == msg.msg)
+
+                        if(data == undefined){
+                            console.log(msg);
+                            this.mensajes.push(msg)
+                        }
+                    })
+
+            this.newSocket.on('backMain',()=>{
+                this.DELETE_CHAT_MESSAGE()
+                this.$router.push({name:'main',params:{token:this.token}})
+            })
     },
     methods:{
+        ...mapMutations(['ADD_CHAT_MESSAGE','DELETE_CHAT_MESSAGE']),
         sendMessage(){
-            this.mensajes.push({'msg':this.text,id:this.socket,name:this.friendName,hour:new Date().getHours()+":"+new Date().getMinutes(), date:new Date().getFullYear()+"/"+new Date().getMonth()+"/"+new Date().getDay(),type:'user'})
-            this.newSocket.emit('messageChat',{'msg':this.text,id:this.socket,name:this.friendName,hour:new Date().getHours()+":"+new Date().getMinutes(), date:new Date().getFullYear()+"/"+new Date().getMonth()+"/"+new Date().getDay(),type:'user'})
+            const day = String(new Date().getDate()).padStart(2, '0');
+            const month = String(new Date().getMonth() + 1).padStart(2, '0');
+            const year = new Date().getFullYear();
+
+            const data = {'msg':this.text,id:this.socket,name:this.friendName,hour:String(new Date().getHours()).padStart(2,'0')+":"+String(new Date().getMinutes()).padStart(2,'0'), date:year+"/"+month+"/"+day,type:'user'}
+
+            this.mensajes.push(data)
+            this.newSocket.emit('messageChat',data)
             this.text = ''
         },
         askGptInput(){
@@ -114,7 +134,12 @@
             if(this.textGpt == '' || this.textGpt.trim() == ' '){
                 this.toast.error('El formato de la pregunta no es valida.',{timeout:2000,position:"top-center"})
             }else{
-                const data = {message:this.textGpt,hour:new Date().getHours()+":"+new Date().getMinutes(),date:new Date().getFullYear()+"/"+new Date().getMonth()+"/"+new Date().getDay(),type:'gpt'}
+
+                const day = String(new Date().getDate()).padStart(2, '0');
+                const month = String(new Date().getMonth() + 1).padStart(2, '0');
+                const year = new Date().getFullYear();
+
+                const data = {message:this.textGpt,hour:String(new Date().getHours()).padStart(2,'0')+":"+String(new Date().getMinutes()).padStart(2,'0'),date:year+"/"+month+"/"+day,type:'gpt'}
                 axios.post('http://localhost:3000/gpt/messageGpt',{token:this.$route.params.token,message:data})
                 .then(response=>{
                     console.log(response["data"]);
@@ -146,10 +171,18 @@
 
                     })
             }
+        },
+        profile(){
+            this.ADD_CHAT_MESSAGE(this.mensajes)
+            this.$router.push({name:'profileFriend',params:{token:this.$route.params.token}})
+        },
+        backMain(){
+            this.DELETE_CHAT_MESSAGE()
+            this.$router.push({name:'main',params:{token:this.token}})
         }
     },
     computed:{
-        ...mapState(['usernameAbreviacion','newSocket'])
+        ...mapState(['usernameAbreviacion','newSocket','token','mensajesChat'])
     }
 }
 </script>

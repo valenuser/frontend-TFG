@@ -8,6 +8,8 @@ import BadRequest from '../views/BadRequest.vue'
 import ChatPruebaView from '@/views/ChatPruebaView.vue'
 import AddFriends from '@/views/AddFriends.vue'
 import AddNewFriend from '@/views/AddNewFriend.vue'
+import ProfileView from '@/views/ProfileView.vue'
+import ProfileUserView from '@/views/ProfileUserView.vue'
 
 const routes = [
   {
@@ -54,6 +56,16 @@ const routes = [
     path: '/newFriend/:token',
     name: 'newFriend',
     component: AddNewFriend
+  },
+  {
+    path: '/profileFriend/:token',
+    name: 'profileFriend',
+    component: ProfileView
+  },
+  {
+    path: '/profile/:token',
+    name: 'profile',
+    component: ProfileUserView
   }
 ]
 

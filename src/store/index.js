@@ -5,7 +5,11 @@ export default createStore({
     friends:[],
     usernameAbreviacion:'',
     socket:'',
-    newSocket : io('http://localhost:3000')
+    newSocket : io('http://localhost:3000'),
+    token:'',
+    profileMensajes:[],
+    profileMensajesGpt:[],
+    mensajesChat:[]
   },
   mutations: {
 
@@ -18,5 +22,26 @@ export default createStore({
     ADD_SOCKET(state,socketId){
       state.socket = socketId
     },
+    ADD_USER_TOKEN(state,token){
+      state.token = token
+    },
+    ADD_USER_MESSAGE(state,messages){
+      state.profileMensajes.push(messages)
+    },
+    ADD_GPT_MESSAGE(state,gpt){
+      state.profileMensajesGpt.push(gpt)
+    },
+    ADD_CHAT_MESSAGE(state,chat){
+      state.mensajesChat = chat
+    },
+    DELETE_USER_MESSAGE(state){
+      state.profileMensajes = []
+    },
+    DELETE_GPT_MESSAGE(state){
+      state.profileMensajesGpt = []
+    },
+    DELETE_CHAT_MESSAGE(state){
+      state.mensajesChat = []
+    }
   }
 })
