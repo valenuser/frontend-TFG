@@ -6,7 +6,7 @@
             </div>
             <div class="w-[180px] flex justify-around">
                 <i class="fa-solid fa-user-group text-white text-[30px]"  @click="AddFriends"></i>
-                <i class="fa-solid fa-ellipsis-vertical text-white text-[30px]"></i>
+                <i class="fa-solid fa-ellipsis-vertical text-white text-[30px]" @click="userProfile"></i>
             </div>
         </div>
         <div class="w-[100%] h-[10vh] flex items-center justify-center">
@@ -67,6 +67,9 @@
         ...mapMutations(['ADD_USERNAME','ADD_CHATS','ADD_SOCKET','ADD_USER_TOKEN']),
         AddFriends(){
             this.$router.push({name:'friends',params:{token:this.$route.params.token}})
+        },
+        userProfile(){
+            this.$router.push({name:'profile',params:{token:this.$route.params.token}})
         }
     },
     computed:{

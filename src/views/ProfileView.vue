@@ -1,15 +1,17 @@
 <template>
     <section class="w-[100%] h-[100vh] flex-col">
-        <div class="w-[100%] h-[10vh] flex items-center justify-between bg-[#2a3942]">
-            <div class="rounded-full w-[50px] h-[50px] ml-2  bg-white flex items-center justify-center font-bold text-black text-[20px]" @click="backChat">
-                <p class="text-[20px]">{{ usernameAbreviacion }}</p>
+        <div class="w-[100%] h-[30vh] bg-[#2a3942]">
+            <div class="w-[100%] h-[10vh] flex items-center justify-between bg-[#2a3942]">
+                <div class="rounded-full w-[50px] h-[50px] ml-2  bg-white flex items-center justify-center font-bold text-black text-[20px]" @click="backChat">
+                    <p class="text-[20px]">{{ usernameAbreviacion }}</p>
+                </div>
+                <div class="w-[100px] flex items-end justify-end mr-2">
+                    <i class="fa-solid fa-user-minus text-red-500 text-[30px]" @click="deleteFriend"></i>
+                </div>
             </div>
-            <div class="w-[100px] flex items-end justify-end mr-2">
-                <i class="fa-solid fa-user-minus text-red-500 text-[30px]" @click="deleteFriend"></i>
+            <div class="w-[100%] h-[10vh] flex items-center justify-center bg-[#2a3942]">
+                <p class="font-bold text-[20px] text-white">{{ friend["username"] }}</p>
             </div>
-        </div>
-        <div class="w-[100%] h-[10vh] flex items-center justify-center bg-[#2a3942]">
-            <p class="font-bold text-[20px] text-white">{{ friend["username"] }}</p>
         </div>
         <div class="w-[100%] h-[5vh] border flex justify-start  items-center bg-white p-2">
             <i class="fa-solid fa-envelope mr-2"></i> <p class="font-bold text-[17px] text-black">Email: {{ friend["email"] }}</p>

@@ -16,6 +16,8 @@
 </template>
 <script>
 import QRCodeVue3 from 'qrcode-vue3';
+import axios from 'axios';
+import { useToast } from 'vue-toastification'
 export default{
   name:'LoginView',
   components:{
@@ -23,8 +25,20 @@ export default{
   },
   data(){
     return{
-      urlQR:'http://192.168.1.11:8080/verify'
+      urlQR:'http://192.168.1.11:8080/verify',
+      toast:useToast()
     }
+  },
+  mounted(){
+    axios.get('http://localhost:3000/login/loggead')
+    .then(response =>{
+      console.log(response);
+    })
+    .catch(e =>{
+      if(e){
+        this.toast.error('No se ha podido iniciar sesion automaticamente',{timeout:2000,position:"top-center"})
+      }
+    })
   },
   methods:{
     register(){
