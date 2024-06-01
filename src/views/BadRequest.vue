@@ -1,7 +1,7 @@
 <template>
     <section class="flex items-center justify-center w-[100%] h-[100vh] bg-[#212121] md:hidden">
         <div class="flex flex-col items-center justify-around  rounded-lg w-[350px] h-[700px]">
-            <img :src="require('/Users/valentinpavonlopez/Desktop/TFG/tfgfrontend/public/img/logo.png')" alt="">
+            <img :src="require('../assets/logo.png')" alt="">
             <div class="flex flex-col items-center justify-around h-[200px] w-[95%]">
                 <h1 class="text-red-500 font-bold text-[23px] text-center ">ACCESO NO AUTORIZADO</h1>
                 <p class="text-white text-center ">Perece ser que no se ha podido verificar la cuenta correctamente. Vuelva  a iniciar sesión para poder entrar a su buzon de mensajes.</p>

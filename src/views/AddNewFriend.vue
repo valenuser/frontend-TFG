@@ -1,7 +1,7 @@
 <template>
     <section class="flex items-center justify-center w-[100%] h-[100vh] bg-[#212121] md:hidden">
         <div class="flex flex-col  items-center justify-around  rounded-lg w-[350px] h-[700px]">
-            <img :src="require('/Users/valentinpavonlopez/Desktop/TFG/tfgfrontend/public/img/logo.png')" alt="">
+            <img :src="require('../assets/logo.png')" alt="">
             <h1 class="text-white font-bold text-[20px] text-center ">SOLICITUD DE AMISTAD</h1>
                 <p class="text-white font-bold text-center">Hola {{ username }}!</p>
                 <p class="text-[#8d96a0] font-bold text-center"> {{ friendName }} quiere añadirte a sus contactos, acepta la solicitud para poder empezar a hablar!</p>
