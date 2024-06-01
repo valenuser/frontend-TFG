@@ -9,7 +9,8 @@ export default createStore({
     token:'',
     profileMensajes:[],
     profileMensajesGpt:[],
-    mensajesChat:[]
+    mensajesChat:[],
+    loggead:false
   },
   mutations: {
 
@@ -42,6 +43,17 @@ export default createStore({
     },
     DELETE_CHAT_MESSAGE(state){
       state.mensajesChat = []
+    },
+    CHANGE_LOGGEAD(state){
+      if(state.loggead){
+
+        state.loggead =  false
+        
+      }else{
+
+        state.loggead =  true
+
+      }
     }
   }
 })

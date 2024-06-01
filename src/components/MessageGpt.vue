@@ -42,7 +42,53 @@
     
                         this.saved = false
                         
+                        // axios.post('http://localhost:3000/messages/savegptMessage',{token:this.$route.params.token,message:this.message})
+                        // .then(response =>{
+                        //     if(response){
+                        //         this.saved = true
+                        //     }
+                        // })
+                        // .catch(e =>{
+                        //     const data = e["response"]["data"]
+    
+                        //     if(data.length > 1)
+                        //     {
+    
+                        //         data.forEach(element => {
+                        //         console.log(element);
+                        //         this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                        //         });
+    
+                        //     }else{
+                        //     console.log(data);
+                        //     this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                        //     }
+    
+                        // })
                     }else{
+                        axios.post('http://localhost:3000/messages/savegptMessage',{token:this.$route.params.token,message:this.message})
+                        .then(response =>{
+                            if(response){
+                                this.saved = true
+                            }
+                        })
+                        .catch(e =>{
+                            const data = e["response"]["data"]
+    
+                            if(data.length > 1)
+                            {
+    
+                                data.forEach(element => {
+                                console.log(element);
+                                this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                                });
+    
+                            }else{
+                            console.log(data);
+                            this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                            }
+    
+                        })
                         axios.post('http://localhost:3000/messages/savegptMessage',{token:this.$route.params.token,message:this.message})
                         .then(response =>{
                             if(response){

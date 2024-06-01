@@ -1,5 +1,5 @@
 <template>
-    <section class="w-[100%] h-[100vh] flex-col">
+    <section class="w-[100%] h-[100vh] flex-col md:hidden">
         <div class="w-[100%] h-[30vh] bg-[#2a3942]">
             <div class="w-[100%] h-[10vh] flex items-center justify-between bg-[#2a3942]">
                 <div class="rounded-full w-[50px] h-[50px] ml-2  bg-white flex items-center justify-center font-bold text-black text-[20px]" @click="backChat">
@@ -31,8 +31,8 @@
             </div>
         </div>
         <div v-if="messagesView == false">
-            <div class="w-[100%] h-[60vh] bg-white">
-                <div class="flex flex-col w-[100%] xl:h-[72vh] h-[72vh] overflow-auto p-2">
+            <div class="w-[100%] h-[50vh] bg-white overflow-auto">
+                <div class="flex flex-col w-[100%] xl:h-[72vh] h-[72vh] p-2">
                     <div v-if="this.profileMensajes.length != 0">
                         <div v-for="message in this.profileMensajes" :key="message">
                             <div v-if="message.firstUsername == friend.username">
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div v-else>
-            <div class="flex flex-col w-[100%] xl:h-[72vh] h-[72vh] overflow-auto p-2">
+            <div class="flex flex-col w-[100%]  overflow-auto p-2">
                     <div v-if="this.profileMensajesGpt.length != 0">
                         <div v-for="gptmessage in this.profileMensajesGpt" :key="gptmessage">
                             <profileMessageGpt :message="gptmessage"/>
@@ -66,6 +66,14 @@
                 </div>
         </div>
     </section>
+    <section class="hidden items-center justify-center w-[100%] h-[100vh]  bg-[#212121] md:flex">
+      <div class="flex flex-col  items-center justify-around  rounded-lg w-[350px] h-[600px]">
+          <img :src="require('../assets/logo.png')" alt="">
+          <p class="font-bold text-[25px] text-white">Bienvenidos a <span class="text-[#287EFF] cursor-pointer">SENDNOW</span></p>
+          <p class="text-white font-bold text-center"> la nueva app de mensajeria con chatGPT integrado!</p>
+          <p class="text-red-500 font-bold text-center text-[16.5px] m-2">En este momento la aplicacion no esta disponible para ipads, tablets y PC.</p>
+      </div>
+  </section>
 </template>
 <script>
    import axios from 'axios'

@@ -1,5 +1,5 @@
 <template>
-    <section class="w-[100%] h-[100vh] flex-col bg-[#2a3942]">
+    <section class="w-[100%] h-[100vh] flex-col bg-[#2a3942] md:hidden">
         <div class="w-[100%] h-[10vh] flex items-center justify-between">
             <div class="rounded-full w-[50px] h-[50px] ml-2  bg-white flex items-center justify-center font-bold text-black text-[20px]" @click="backMain">
                 <p class="text-[20px]">{{ usernameAbreviacion }}</p>
@@ -15,7 +15,14 @@
             </div>
         </div>
         <div class="w-[100%] h-[10vh] flex items-center justify-center">
-            <p class="font-bold text-[20px] text-white">{{ friendName }}</p>
+            <div class="w-[57%] flex items-end justify-end">
+                <p class="font-bold text-[20px] text-white">{{ friendName }}</p>
+            </div>
+            <div class="w-[43%] flex items-center justify-center">
+                <div class="w-[100px] h-[30px] bg-black rounded-md flex items-center justify-center" @click="sendAdvice">
+                    <p class="text-white font-bold">Avisar</p>
+                </div>
+            </div>
         </div>
         <div class="w-[100%] h-[80vh] bg-white">
             <div class="flex flex-col w-[100%] xl:h-[72vh] h-[72vh] overflow-auto p-2">
@@ -46,6 +53,14 @@
         </div>
         
     </section>
+    <section class="hidden items-center justify-center w-[100%] h-[100vh]  bg-[#212121] md:flex">
+      <div class="flex flex-col  items-center justify-around  rounded-lg w-[350px] h-[600px]">
+          <img :src="require('../assets/logo.png')" alt="">
+          <p class="font-bold text-[25px] text-white">Bienvenidos a <span class="text-[#287EFF] cursor-pointer">SENDNOW</span></p>
+          <p class="text-white font-bold text-center"> la nueva app de mensajeria con chatGPT integrado!</p>
+          <p class="text-red-500 font-bold text-center text-[16.5px] m-2">En este momento la aplicacion no esta disponible para ipads, tablets y PC.</p>
+      </div>
+  </section>
 </template>
 <script>    
     import { useToast } from 'vue-toastification'
@@ -78,11 +93,12 @@
             axios.post(`http://localhost:3000/token/verifyTokenChat`,{token:this.$route.params.token})
             .then(response =>{
                  if(response){
-                    console.log(response["data"]);
+
+                    this.newSocket.emit('notAvailable',{'user':response["data"]["user"]})
+
                     this.friendName = response["data"]["friend"]["username"]
                     this.socket = response["data"]["friend"]["socketId"]
     
-
     
             }})
             .catch(error =>{
@@ -96,7 +112,7 @@
                         const data = this.mensajes.find(x => x.hour == msg.hour && x.date == msg.date && x.msg == msg.msg)
 
                         if(data == undefined){
-                            console.log(msg);
+
                             this.mensajes.push(msg)
                         }
                     })
@@ -142,11 +158,10 @@
                 const data = {message:this.textGpt,hour:String(new Date().getHours()).padStart(2,'0')+":"+String(new Date().getMinutes()).padStart(2,'0'),date:year+"/"+month+"/"+day,type:'gpt'}
                 axios.post('http://localhost:3000/gpt/messageGpt',{token:this.$route.params.token,message:data})
                 .then(response=>{
-                    console.log(response["data"]);
+
                     if(response){
                         const gptResponse = {message:response["data"]["message"],response:response["data"]["response"]}
                     
-                        console.log(gptResponse);
 
                         this.mensajes.push(gptResponse)
 
@@ -160,12 +175,11 @@
                         {
 
                             data.forEach(element => {
-                            console.log(element);
-                            this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                                this.toast.error(element.msg,{timeout:2000,position:"top-center"})
                             });
 
                         }else{
-                        console.log(data);
+
                         this.toast.error(data.msg,{timeout:2000,position:"top-center"})
                         }
 
@@ -179,6 +193,34 @@
         backMain(){
             this.DELETE_CHAT_MESSAGE()
             this.$router.push({name:'main',params:{token:this.token}})
+        },
+        sendAdvice(){
+            try{
+                axios.post('http://localhost:3000/messages/sendAdvice',{token:this.$route.params.token})
+                .then(response => {
+                    this.toast.success(response["data"]["msg"],{timeout:2000,position:"top-center"})
+                })
+                .catch(e =>{
+                    const data = e["response"]["data"]
+
+                    if(data.length > 1)
+                    {
+
+                        data.forEach(element => {
+                        console.log(element);
+                        this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                        });
+
+                    }else{
+                    console.log(data);
+                    this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                    }
+
+                })
+
+            }catch(e){
+            this.toast.error('Ups... ocurrio un error inesperado.',{timeout:2000,position:"top-center"})
+            }
         }
     },
     computed:{

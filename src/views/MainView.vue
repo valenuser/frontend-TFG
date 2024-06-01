@@ -1,5 +1,5 @@
 <template>
-    <section class="w-[100%] h-[100vh] flex-col bg-[#2a3942]">
+    <section class="w-[100%] h-[100vh] flex-col bg-[#2a3942] md:hidden">
         <div class="w-[100%] h-[10vh] flex items-center justify-between">
             <div class="rounded-full w-[50px] h-[50px] ml-2  bg-white flex items-center justify-center font-bold text-black text-[20px]">
                 <p>{{ usernameAbreviacion }}</p>
@@ -25,15 +25,25 @@
             </div>
         </div>
     </section>
+    <section class="hidden items-center justify-center w-[100%] h-[100vh]  bg-[#212121] md:flex">
+      <div class="flex flex-col  items-center justify-around  rounded-lg w-[350px] h-[600px]">
+          <img :src="require('../assets/logo.png')" alt="">
+          <p class="font-bold text-[25px] text-white">Bienvenidos a <span class="text-[#287EFF] cursor-pointer">SENDNOW</span></p>
+          <p class="text-white font-bold text-center"> la nueva app de mensajeria con chatGPT integrado!</p>
+          <p class="text-red-500 font-bold text-center text-[16.5px] m-2">En este momento la aplicacion no esta disponible para ipads, tablets y PC.</p>
+      </div>
+  </section>
 </template>
 <script>
     import axios from 'axios'
     import { mapState, mapMutations }  from 'vuex' 
     import FriendBox from '../components/FriendBox.vue'
+import { useToast } from 'vue-toastification'
     export default{
     data(){
         return{
-            username:''
+            username:'',
+            toast:useToast()
         }
     },
     components:{
@@ -48,11 +58,59 @@
             this.ADD_USERNAME(response["data"]["user"]["username"].substr(0,2).toUpperCase()),
             this.ADD_CHATS(response["data"]["user"]["friends"])
 
-            this.newSocket.emit('message',{'user':response["data"]["user"]})
+            if(response["data"]["user"]["socketId"] == ""){
+
+                this.newSocket.emit('message',{'user':response["data"]["user"]})
+
+            }
+
+
+            this.newSocket.emit('notificationLoggead',{'user':response["data"]["user"]})
+
+
 
             this.newSocket.on('message',(id)=>{
-
+                this.CHANGE_LOGGEAD()
                 this.ADD_SOCKET(id["id"])
+
+            })
+
+            this.newSocket.on('notificationLoggead',(msg)=>{
+
+                if(this.loggead){
+                    const info = []
+        
+                    info.push(msg)
+        
+                    const verify = info.find(x => x == msg)
+        
+                    if(verify == undefined){
+                        this.toast.success(msg,{timeout:1000,position:"top-center"})
+                        
+                    }
+                }
+
+    
+    
+            })
+
+            this.newSocket.on('notAvailable',(msg)=>{
+
+                if(this.loggead){
+                    const info = []
+        
+                    info.push(msg)
+        
+                    const verify = info.find(x => x == msg)
+        
+                    if(verify == undefined){
+                        this.toast.error(msg,{timeout:1000,position:"top-center"})
+                        
+                    }
+
+
+                }
+
 
             })
         } )
@@ -62,9 +120,10 @@
                 this.$router.push({name:'badRequest'})
             }
         })
+        
     },
     methods:{
-        ...mapMutations(['ADD_USERNAME','ADD_CHATS','ADD_SOCKET','ADD_USER_TOKEN']),
+        ...mapMutations(['ADD_USERNAME','ADD_CHATS','ADD_SOCKET','ADD_USER_TOKEN','CHANGE_LOGGEAD']),
         AddFriends(){
             this.$router.push({name:'friends',params:{token:this.$route.params.token}})
         },
@@ -73,7 +132,7 @@
         }
     },
     computed:{
-        ...mapState(['friends','usernameAbreviacion','newSocket'])
+        ...mapState(['friends','usernameAbreviacion','newSocket','loggead'])
     }
 }
 </script>

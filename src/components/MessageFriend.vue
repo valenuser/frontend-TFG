@@ -14,7 +14,9 @@
                     </div>
                 </div>
                 <div v-else>
-                    <i class="fa-solid fa-bookmark text-yellow-600" @click="saveMessage"></i>
+                    <div class="text-grey-400">
+                        <i class="fa-solid fa-bookmark text-yellow-600" @click="deleteMessage"></i>
+                    </div>
                 </div>
                 <p class="text-black">{{ message.hour }}</p>
             </div>
@@ -34,11 +36,6 @@
         },
         methods:{
             saveMessage(){
-                if(this.saved){
-
-                    this.saved = false
-                    
-                }else{
                     axios.post('http://localhost:3000/messages/saveMessage',{token:this.$route.params.token,message:this.message})
                     .then(response =>{
                         if(response){
@@ -62,8 +59,33 @@
                         }
 
                     })
+            },
+            deleteMessage(){
+                console.log(this.saved);
+                axios.post('http://localhost:3000/messages/deleteMessage',{token:this.$route.params.token,message:this.message})
+                    .then(response =>{
+                        if(response){
+                            this.saved = false
+                        }
+                    })
+                    .catch(e =>{
+                        console.log(e);
+                        const data = e["response"]["data"]
 
-                }
+                        if(data.length > 1)
+                        {
+
+                            data.forEach(element => {
+                            console.log(element);
+                            this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                            });
+
+                        }else{
+                        console.log(data);
+                        this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                        }
+
+                    })
             }
         }
     }
