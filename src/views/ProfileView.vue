@@ -30,40 +30,42 @@
                 <p class="text-[10px]">Consultas GPT</p>
             </div>
         </div>
-        <div v-if="messagesView == false">
-            <div class="w-[100%] h-[50vh] bg-white overflow-auto">
-                <div class="flex flex-col w-[100%] xl:h-[72vh] h-[72vh] p-2">
-                    <div v-if="this.profileMensajes.length != 0">
-                        <div v-for="message in this.profileMensajes" :key="message">
-                            <div v-if="message.firstUsername == friend.username">
-                                    <profileMessageUser :message="message"/>
+        <div class="w-[100%] h-[50vh] flex flex-col overflow-auto p-2">
+            <div v-if="messagesView == false">
+                    <div class="flex flex-col w-[100%]  p-2">
+                        <div v-if="this.profileMensajes.length != 0">
+                            <div v-for="message in this.profileMensajes" :key="message">
+                                <div v-if="message.firstUsername == friend.username">
+                                        <profileMessageUser :message="message"/>
+                                </div>
+                                <div v-else-if="message.firstUsername != friend.username ">
+                                    <profileMessageFriend :message="message"/>
+                                </div>
                             </div>
-                            <div v-else-if="message.firstUsername != friend.username ">
-                                <profileMessageFriend :message="message"/>
+                        </div>
+                        <div v-else>
+                            <div class="flex h-[30vh] items-center justify-center">
+                                <p>No se han encontrado mensajes archivados.</p>
                             </div>
                         </div>
                     </div>
-                    <div v-else>
-                        <div class="flex h-[30vh] items-center justify-center">
-                            <p>No se han encontrado mensajes archivados.</p>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-        <div v-else>
-            <div class="flex flex-col w-[100%]  overflow-auto p-2">
-                    <div v-if="this.profileMensajesGpt.length != 0">
-                        <div v-for="gptmessage in this.profileMensajesGpt" :key="gptmessage">
-                            <profileMessageGpt :message="gptmessage"/>
+            <div v-else>
+                <div class="flex flex-col w-[100%]  p-2">
+                        <div v-if="this.profileMensajesGpt.length != 0">
+                            <div class="w-[100%] overflow-auto p-2">
+                                <div v-for="gptmessage in this.profileMensajesGpt" :key="gptmessage">
+                                    <profileMessageGpt :message="gptmessage"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="h-[30vh] flex items-center justify-center">
+                                <p>No se han encontrado mensajes archivados.</p>
+                            </div>
                         </div>
                     </div>
-                    <div v-else>
-                        <div class="h-[30vh] flex items-center justify-center">
-                            <p>No se han encontrado mensajes archivados.</p>
-                        </div>
-                    </div>
-                </div>
+            </div>
         </div>
     </section>
     <section class="hidden items-center justify-center w-[100%] h-[100vh]  bg-[#212121] md:flex">

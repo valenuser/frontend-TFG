@@ -47,7 +47,7 @@
             </div>
             <div v-else>
                 <div class="w-[100%] xl:h-[55px] h-[52px]   flex items-center justify-around ">
-                        <input type="text" class="xl:w-[50%] xl:h-[55px]  w-[85%]  h-[40px] border bg-[#044976] rounded-lg outline-none p-2 text-[15px] text-white text-clip" v-model="textGpt"><button class="rounded-full bg-[#044976] w-[40px] h-[40px] text-white flex items-center justify-center" @click="askGpt"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                        <input type="text" class="xl:w-[50%] xl:h-[55px]  w-[85%]  h-[40px] border bg-black rounded-lg outline-none p-2 text-[15px] text-white text-clip animate__animated animate__fadeIn" v-model="textGpt"><button class="rounded-full bg-black w-[40px] h-[40px] text-white flex items-center justify-center animate__animated animate__fadeIn" @click="askGpt"><i class="fa-solid fa-arrow-up"></i></button>
                 </div>
             </div>
         </div>

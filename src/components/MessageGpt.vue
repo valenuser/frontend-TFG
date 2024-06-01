@@ -27,45 +27,19 @@
     </template>
     <script>
         import axios from 'axios'
+        import { useToast } from 'vue-toastification'
         export default{
             props:{
                 message:Object
             },
             data(){
                 return{
-                    saved:false
+                    saved:false,
+                    toast:useToast()
                 }
             },
             methods:{
                 saveMessage(){
-                    if(this.saved){
-    
-                        this.saved = false
-                        
-                        // axios.post('http://localhost:3000/messages/savegptMessage',{token:this.$route.params.token,message:this.message})
-                        // .then(response =>{
-                        //     if(response){
-                        //         this.saved = true
-                        //     }
-                        // })
-                        // .catch(e =>{
-                        //     const data = e["response"]["data"]
-    
-                        //     if(data.length > 1)
-                        //     {
-    
-                        //         data.forEach(element => {
-                        //         console.log(element);
-                        //         this.toast.error(element.msg,{timeout:2000,position:"top-center"})
-                        //         });
-    
-                        //     }else{
-                        //     console.log(data);
-                        //     this.toast.error(data.msg,{timeout:2000,position:"top-center"})
-                        //     }
-    
-                        // })
-                    }else{
                         axios.post('http://localhost:3000/messages/savegptMessage',{token:this.$route.params.token,message:this.message})
                         .then(response =>{
                             if(response){
@@ -89,31 +63,31 @@
                             }
     
                         })
-                        axios.post('http://localhost:3000/messages/savegptMessage',{token:this.$route.params.token,message:this.message})
-                        .then(response =>{
-                            if(response){
-                                this.saved = true
-                            }
-                        })
-                        .catch(e =>{
-                            const data = e["response"]["data"]
+                },
+                deleteMessage(){
+                    axios.post('http://localhost:3000/messages/deletegptMessage',{token:this.$route.params.token,message:this.message})
+                    .then(response =>{
+                        if(response){
+                            this.saved = false
+                        }
+                    })
+                    .catch(e =>{
+                        const data = e["response"]["data"]
     
-                            if(data.length > 1)
-                            {
+                        if(data.length > 1)
+                        {
     
-                                data.forEach(element => {
-                                console.log(element);
-                                this.toast.error(element.msg,{timeout:2000,position:"top-center"})
-                                });
+                            data.forEach(element => {
+                            console.log(element);
+                            this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                            });
     
-                            }else{
-                            console.log(data);
-                            this.toast.error(data.msg,{timeout:2000,position:"top-center"})
-                            }
-    
-                        })
-    
-                    }
+                        }else{
+                        console.log(data);
+                        this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                        }
+                    })
+
                 }
             }
         }

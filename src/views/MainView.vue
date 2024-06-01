@@ -58,15 +58,14 @@ import { useToast } from 'vue-toastification'
             this.ADD_USERNAME(response["data"]["user"]["username"].substr(0,2).toUpperCase()),
             this.ADD_CHATS(response["data"]["user"]["friends"])
 
-            if(response["data"]["user"]["socketId"] == ""){
+            console.log(response["data"]["user"]["friends"]);
 
-                this.newSocket.emit('message',{'user':response["data"]["user"]})
-
-            }
+            this.newSocket.emit('message',{'user':response["data"]["user"]})
 
 
-            this.newSocket.emit('notificationLoggead',{'user':response["data"]["user"]})
 
+
+            this.newSocket.emit('updateSocket',{'user':response["data"]["user"]})
 
 
             this.newSocket.on('message',(id)=>{
@@ -75,19 +74,15 @@ import { useToast } from 'vue-toastification'
 
             })
 
-            this.newSocket.on('notificationLoggead',(msg)=>{
+            this.newSocket.on('updateSocket',(msg)=>{
 
                 if(this.loggead){
-                    const info = []
+                    const user = msg["user"]
         
-                    info.push(msg)
-        
-                    const verify = info.find(x => x == msg)
-        
-                    if(verify == undefined){
-                        this.toast.success(msg,{timeout:1000,position:"top-center"})
-                        
-                    }
+                    const socket = msg["socket"]
+
+                    this.UPDATE_SOCKET_FRIENDS(user,socket)
+
                 }
 
     
@@ -113,6 +108,7 @@ import { useToast } from 'vue-toastification'
 
 
             })
+
         } )
         .catch(error =>{
             if(error){
@@ -123,7 +119,7 @@ import { useToast } from 'vue-toastification'
         
     },
     methods:{
-        ...mapMutations(['ADD_USERNAME','ADD_CHATS','ADD_SOCKET','ADD_USER_TOKEN','CHANGE_LOGGEAD']),
+        ...mapMutations(['ADD_USERNAME','ADD_CHATS','ADD_SOCKET','ADD_USER_TOKEN','CHANGE_LOGGEAD','UPDATE_SOCKET_FRIENDS']),
         AddFriends(){
             this.$router.push({name:'friends',params:{token:this.$route.params.token}})
         },

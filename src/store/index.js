@@ -54,6 +54,12 @@ export default createStore({
         state.loggead =  true
 
       }
+    },
+    UPDATE_SOCKET_FRIENDS(state,user,socket){
+
+        const userData = state.friends.find(x => x.username == user)
+
+        state.friends[state.friends.indexOf(userData)]["socketId"] = socket
     }
   }
 })

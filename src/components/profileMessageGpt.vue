@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <i class="fa-solid fa-bookmark text-yellow-600" @click="saveMessage"></i>
+                    <i class="fa-solid fa-bookmark text-yellow-600" @click="deleteMessage"></i>
                 </div>
             </div>
         </div>
@@ -28,47 +28,66 @@
     </template>
     <script>
         import axios from 'axios'
+    import { useToast } from 'vue-toastification'
         export default{
             props:{
                 message:Object
             },
             data(){
                 return{
-                    saved:true
+                    saved:true,
+                    toast:useToast()
                 }
             },
             methods:{
                 saveMessage(){
-                    if(this.saved){
+                    axios.post('http://localhost:3000/messages/savegptMessage',{token:this.$route.params.token,message:this.message})
+                    .then(response =>{
+                        if(response){
+                            this.saved = true
+                        }
+                    })
+                    .catch(e =>{
+                        const data = e["response"]["data"]
     
-                        this.saved = false
-                        
-                    }else{
-                        axios.post('http://localhost:3000/messages/savegptMessage',{token:this.$route.params.token,message:this.message})
-                        .then(response =>{
-                            if(response){
-                                this.saved = true
-                            }
-                        })
-                        .catch(e =>{
-                            const data = e["response"]["data"]
+                        if(data.length > 1)
+                        {
     
-                            if(data.length > 1)
-                            {
+                            data.forEach(element => {
+                            console.log(element);
+                            this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                            });
     
-                                data.forEach(element => {
-                                console.log(element);
-                                this.toast.error(element.msg,{timeout:2000,position:"top-center"})
-                                });
+                        }else{
+                        console.log(data);
+                        this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                        }
+                    })
+                },
+                deleteMessage(){
+                    axios.post('http://localhost:3000/messages/deletegptMessage',{token:this.$route.params.token,message:this.message})
+                    .then(response =>{
+                        if(response){
+                            this.saved = false
+                        }
+                    })
+                    .catch(e =>{
+                        const data = e["response"]["data"]
     
-                            }else{
-                            console.log(data);
-                            this.toast.error(data.msg,{timeout:2000,position:"top-center"})
-                            }
+                        if(data.length > 1)
+                        {
     
-                        })
+                            data.forEach(element => {
+                            console.log(element);
+                            this.toast.error(element.msg,{timeout:2000,position:"top-center"})
+                            });
     
-                    }
+                        }else{
+                        console.log(data);
+                        this.toast.error(data.msg,{timeout:2000,position:"top-center"})
+                        }
+                    })
+
                 }
             }
         }
