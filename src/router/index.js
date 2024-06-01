@@ -3,6 +3,13 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import VerifyView from '../views/VerifyView.vue'
 import LoginView from '../views/LoginView.vue'
+import MainView from '../views/MainView.vue'
+import BadRequest from '../views/BadRequest.vue'
+import ChatPruebaView from '@/views/ChatView.vue'
+import AddFriends from '@/views/AddFriends.vue'
+import AddNewFriend from '@/views/AddNewFriend.vue'
+import ProfileView from '@/views/ProfileView.vue'
+import ProfileUserView from '@/views/ProfileUserView.vue'
 
 const routes = [
   {
@@ -24,6 +31,41 @@ const routes = [
     path: '/verify',
     name: 'verify',
     component: VerifyView
+  },
+  {
+    path: '/chat/:token',
+    name: 'chat',
+    component: ChatPruebaView
+  },
+  {
+    path: '/chats/:token',
+    name: 'main',
+    component: MainView
+  },
+  {
+    path: '/badRequest',
+    name: 'badRequest',
+    component: BadRequest
+  },
+  {
+    path: '/addFriends/:token',
+    name: 'friends',
+    component: AddFriends
+  },
+  {
+    path: '/newFriend/:token',
+    name: 'newFriend',
+    component: AddNewFriend
+  },
+  {
+    path: '/profileFriend/:token',
+    name: 'profileFriend',
+    component: ProfileView
+  },
+  {
+    path: '/profile/:token',
+    name: 'profile',
+    component: ProfileUserView
   }
 ]
 
