@@ -50,7 +50,7 @@ import { useToast } from 'vue-toastification'
         FriendBox
     },
     mounted(){
-        axios.post(`http://localhost:3000/token/verifyToken`,{token:this.$route.params.token})
+        axios.post(`https://backendtfg-tnt9.onrender.com/token/verifyToken`,{token:this.$route.params.token})
         .then(response  =>{
 
             this.ADD_USER_TOKEN(this.$route.params.token)

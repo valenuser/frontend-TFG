@@ -15,7 +15,7 @@ export default{
     },
     methods:{
         sendFriend(){
-            axios.post(`http://localhost:3000/friends/add`,{token:this.$route.params.token,email:this.contactName["email"]})
+            axios.post(`https://backendtfg-tnt9.onrender.com/friends/add`,{token:this.$route.params.token,email:this.contactName["email"]})
             .then(response  =>  console.log(response))
             .catch(error =>{
                         const data = error["response"]["data"]

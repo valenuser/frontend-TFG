@@ -5,7 +5,7 @@ export default createStore({
     friends:[],
     usernameAbreviacion:'',
     socket:'',
-    newSocket : io('http://localhost:3000'),
+    newSocket : io('https://backendtfg-tnt9.onrender.com'),
     token:'',
     profileMensajes:[],
     profileMensajesGpt:[],

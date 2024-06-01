@@ -100,7 +100,7 @@
         profileMessageGpt
     },
     mounted(){
-        axios.post(`http://localhost:3000/token/verifyTokenChat`,{token:this.$route.params.token})
+        axios.post(`https://backendtfg-tnt9.onrender.com/token/verifyTokenChat`,{token:this.$route.params.token})
         .then(response =>{
                 this.friendContacts = response["data"]["friend"]["friends"].length;
                 this.friend = response["data"]["friend"]
@@ -134,7 +134,7 @@
             }
         },
         dataMessages(){
-            axios.post(`http://localhost:3000/messages/messagesChat`,{token:this.$route.params.token})
+            axios.post(`https://backendtfg-tnt9.onrender.com/messages/messagesChat`,{token:this.$route.params.token})
             .then(response =>{
 
                         this.DELETE_USER_MESSAGE()
@@ -153,7 +153,7 @@
             })
         },
         deleteFriend(){
-            axios.post(`http://localhost:3000/friends/deleteFriend`,{token:this.$route.params.token})
+            axios.post(`https://backendtfg-tnt9.onrender.com/friends/deleteFriend`,{token:this.$route.params.token})
             .then(response =>{
                     if(response){
 

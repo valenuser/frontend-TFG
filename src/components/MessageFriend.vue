@@ -36,7 +36,7 @@
         },
         methods:{
             saveMessage(){
-                    axios.post('http://localhost:3000/messages/saveMessage',{token:this.$route.params.token,message:this.message})
+                    axios.post('https://backendtfg-tnt9.onrender.com/messages/saveMessage',{token:this.$route.params.token,message:this.message})
                     .then(response =>{
                         if(response){
                             this.saved = true
@@ -62,7 +62,7 @@
             },
             deleteMessage(){
                 console.log(this.saved);
-                axios.post('http://localhost:3000/messages/deleteMessage',{token:this.$route.params.token,message:this.message})
+                axios.post('https://backendtfg-tnt9.onrender.com/messages/deleteMessage',{token:this.$route.params.token,message:this.message})
                     .then(response =>{
                         if(response){
                             this.saved = false

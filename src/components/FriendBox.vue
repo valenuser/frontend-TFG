@@ -14,7 +14,7 @@ export default{
     },
     methods:{
         chat(){
-            axios.post('http://localhost:3000/token/chatToken',{token:this.$route.params.token, friend: this.contactName})
+            axios.post('https://backendtfg-tnt9.onrender.com/token/chatToken',{token:this.$route.params.token, friend: this.contactName})
             .then(response =>{
 
                 this.$router.push({name:'chat',params:{token:response["data"]}})
