@@ -84,7 +84,7 @@ export default{
             const userCheck = this.verifyUsername() 
             
             if( emailCheck != false && userCheck != false ){
-            axios.post('http://localhost:3000/register',{email:this.mail,username:this.username})
+            axios.post('https://backendtfg-tnt9.onrender.com/register',{email:this.mail,username:this.username})
             .then(response =>{
                     if(response){
                         this.popUp()

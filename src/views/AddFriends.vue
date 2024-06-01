@@ -51,7 +51,7 @@
         NewFriend
     },
     mounted(){
-        axios.post(`http://localhost:3000/token/verifyToken`,{token:this.$route.params.token})
+        axios.post(`https://backendtfg-tnt9.onrender.com/token/verifyToken`,{token:this.$route.params.token})
         .then(response  =>{
             
             console.log(response["data"]);
@@ -76,7 +76,7 @@
             }else{
                 if(this.contact != "")
                 {
-                    axios.post(`http://localhost:3000/find`,{token:this.$route.params.token, username:this.contact})
+                    axios.post(`https://backendtfg-tnt9.onrender.com/find`,{token:this.$route.params.token, username:this.contact})
                     .then(response  => {
     
                         this.newFriends = []

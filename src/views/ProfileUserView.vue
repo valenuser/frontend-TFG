@@ -49,7 +49,7 @@
         }
     },
     mounted(){
-        axios.post(`http://localhost:3000/token/verifyToken`,{token:this.$route.params.token})
+        axios.post(`https://backendtfg-tnt9.onrender.com/token/verifyToken`,{token:this.$route.params.token})
         .then(response =>{
 
             this.userContacts = response["data"]["user"]["friends"].length;
@@ -69,7 +69,7 @@
     methods:{
         ...mapMutations(['CHANGE_LOGGEAD']),
         logout(){
-            axios.post(`http://localhost:3000/login/logout`,{token:this.$route.params.token})
+            axios.post(`https://backendtfg-tnt9.onrender.com/login/logout`,{token:this.$route.params.token})
             .then(response =>{
                 console.log(response);
                 this.CHANGE_LOGGEAD()

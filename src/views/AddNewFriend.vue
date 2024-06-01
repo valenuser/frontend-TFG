@@ -24,7 +24,7 @@ import axios from 'axios'
 import { useToast } from 'vue-toastification'
 export default{
     mounted(){
-            axios.post(`http://localhost:3000/token/addFriendToken`,{token:this.$route.params.token})
+            axios.post(`https://backendtfg-tnt9.onrender.com/token/addFriendToken`,{token:this.$route.params.token})
             .then(response  =>{
                 console.log(response);
                 const user = response["data"]["user"]["username"]
@@ -53,7 +53,7 @@ export default{
             this.$router.push({name:'home'})
         },
         addFriend(){
-            axios.post('http://localhost:3000/friends/addFriend',{token:this.$route.params.token})
+            axios.post('https://backendtfg-tnt9.onrender.com/friends/addFriend',{token:this.$route.params.token})
             .then(response  =>{
                 if(response){
                     this.toast.success('Nuevo contacto añadido!',{timeout:2000,position:"top-center"})

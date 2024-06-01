@@ -90,7 +90,7 @@
     mounted(){
             this.mensajes = this.mensajesChat
 
-            axios.post(`http://localhost:3000/token/verifyTokenChat`,{token:this.$route.params.token})
+            axios.post(`https://backendtfg-tnt9.onrender.com/token/verifyTokenChat`,{token:this.$route.params.token})
             .then(response =>{
                  if(response){
 
@@ -156,7 +156,7 @@
                 const year = new Date().getFullYear();
 
                 const data = {message:this.textGpt,hour:String(new Date().getHours()).padStart(2,'0')+":"+String(new Date().getMinutes()).padStart(2,'0'),date:year+"/"+month+"/"+day,type:'gpt'}
-                axios.post('http://localhost:3000/gpt/messageGpt',{token:this.$route.params.token,message:data})
+                axios.post('https://backendtfg-tnt9.onrender.com/gpt/messageGpt',{token:this.$route.params.token,message:data})
                 .then(response=>{
 
                     if(response){
@@ -196,7 +196,7 @@
         },
         sendAdvice(){
             try{
-                axios.post('http://localhost:3000/messages/sendAdvice',{token:this.$route.params.token})
+                axios.post('https://backendtfg-tnt9.onrender.com/messages/sendAdvice',{token:this.$route.params.token})
                 .then(response => {
                     this.toast.success(response["data"]["msg"],{timeout:2000,position:"top-center"})
                 })

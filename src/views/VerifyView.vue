@@ -52,7 +52,7 @@ export default{
         const pastronEmail = /[@]/g
 
         if(this.mail.match(pastronEmail) != null &&    this.mail.includes('.') != false){
-            axios.post('http://localhost:3000/verifyMail',{mail:this.mail})
+            axios.post('https://backendtfg-tnt9.onrender.com/verifyMail',{mail:this.mail})
             .then(response => {
               console.log('a');
               if(response){
